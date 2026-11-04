@@ -2,5 +2,4 @@ torch
 transformers>=4.44
 librosa
 soundfile
-gradio[mcp]>=5.30
-mcp[cli]>=1.2
+gradio>=5.30

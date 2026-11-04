@@ -8,21 +8,20 @@
 - **Название проекта:** VoiceGuard: детектор поддельного голоса (VoiceGuard: жалған дауысты анықтау жүйесі)
 - **Мероприятие:** «IT-Generation: Шаг в будущее», Digital Qazaqstan Day 2026, ЗКИТУ + Batys Hub, Уральск, **5 ноября 2026**, блок мастер-классов 10:30–11:30.
 - **Команда:** Успанов Арсен, Гумаров Орынбек («Орыч»). Научный руководитель — Сәрсенғалиева Ақбаян Максимқызы.
-- **Тип приложения:** веб-демо (Gradio) + MCP-сервер для ИИ-ассистентов.
+- **Тип приложения:** MVP — веб-демо (Gradio) на Hugging Face Space.
 - **High Concept:** по аудиозаписи определить, живой это голос или синтезированный нейросетью (TTS/клон). Защита от телефонного мошенничества и фейковых голосовых.
 - **Core Loop:** загрузить/записать аудио → модель оценивает окна по 5 с → вероятность подделки → вердикт FAKE/REAL.
 - **Технологический стек:**
   - **Платформа:** Hugging Face (модель + бесплатный CPU Space), бюджет 0.
   - **Язык:** Python 3.12
-  - **Ключевые библиотеки:** transformers, torch, librosa, gradio[mcp], mcp (FastMCP)
-  - **Модель:** `MelodyMachine/Deepfake-audio-detection-V2` (wav2vec2, метки fake/real, Apache-2.0)
-  - **Git:** `[ссылка на GitHub — добавить после создания]`
+  - **Ключевые библиотеки:** transformers, torch, librosa, gradio
+  - **Модель:** `Gustking/wav2vec2-large-xlsr-deepfake-audio-classification` (wav2vec2-large-xlsr-53, метки real/fake, Apache-2.0, 1.3 ГБ)
+  - **Git:** https://github.com/IShirol/voiceguard (приватный)
 
 ## 2. Карта кода
 - `voiceguard/detector.py` — ядро: загрузка аудио, нарезка, классификация, агрегирование.
-- `mcp_server.py` — локальный MCP (stdio): `analyze_voice`, `analyze_folder`, `model_info`.
-- `app.py` — Gradio-демо для HF Space, тоже отдаёт MCP по SSE.
-- `.mcp.json` — подключение MCP к Claude Code.
+- `app.py` — Gradio-демо для HF Space.
+- `tools/smoke_test.py` — прогон образцов из `samples/`.
 
 ## 3. Активная разработка
 👉 **Текущий этап и задачи сессии:** [`docs/session.md`](session.md)

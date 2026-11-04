@@ -1,7 +1,5 @@
 """VoiceGuard — веб-демо для Hugging Face Spaces (Gradio).
 
-Тот же Space автоматически поднимает MCP-сервер:
-    https://<user>-voiceguard.hf.space/gradio_api/mcp/sse
 Локально: python app.py  ->  http://127.0.0.1:7860
 """
 
@@ -56,4 +54,4 @@ with gr.Blocks(title="VoiceGuard") as demo:
     )
 
 if __name__ == "__main__":
-    demo.launch(mcp_server=True)
+    demo.launch()

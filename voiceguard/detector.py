@@ -1,7 +1,7 @@
 """Ядро VoiceGuard: определяет, синтезирован ли голос (deepfake) или настоящий.
 
-Модель берётся с Hugging Face (по умолчанию wav2vec2-классификатор
-MelodyMachine/Deepfake-audio-detection-V2). Её можно сменить через
+Модель берётся с Hugging Face (по умолчанию wav2vec2-XLSR-классификатор
+Gustking/wav2vec2-large-xlsr-deepfake-audio-classification). Её можно сменить через
 переменную окружения VOICEGUARD_MODEL.
 
 Длинные записи режутся на окна по CHUNK_SECONDS, каждое окно
@@ -17,14 +17,14 @@ from functools import lru_cache
 import librosa
 import numpy as np
 
-MODEL_ID = os.getenv("VOICEGUARD_MODEL", "MelodyMachine/Deepfake-audio-detection-V2")
+MODEL_ID = os.getenv("VOICEGUARD_MODEL", "Gustking/wav2vec2-large-xlsr-deepfake-audio-classification")
 SAMPLE_RATE = 16_000
 CHUNK_SECONDS = float(os.getenv("VOICEGUARD_CHUNK_SECONDS", "5"))
 MAX_SECONDS = float(os.getenv("VOICEGUARD_MAX_SECONDS", "60"))
 FAKE_THRESHOLD = float(os.getenv("VOICEGUARD_THRESHOLD", "0.5"))
 
 # Метки разных моделей приводим к двум: fake / real.
-_FAKE_LABELS = {"fake", "spoof", "deepfake", "synthetic", "ai", "label_0"}
+_FAKE_LABELS = {"fake", "spoof", "deepfake", "synthetic", "ai"}
 
 
 @lru_cache(maxsize=1)

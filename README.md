@@ -29,13 +29,11 @@ VoiceGuard определяет, принадлежит ли голос на з�
    librosa → 16 кГц моно → окна по 5 с
                   │
    wav2vec2-классификатор с Hugging Face
-   (MelodyMachine/Deepfake-audio-detection-V2)
+   (Gustking/wav2vec2-large-xlsr-deepfake-audio-classification)
                   │
    вероятность подделки по каждому окну → среднее → FAKE / REAL
-          ┌───────┴────────┐
-     app.py (Gradio)   mcp_server.py (MCP, stdio)
-   веб-демо в HF Space  инструменты для ИИ-ассистентов
-   + MCP по SSE
+                  │
+     app.py — веб-демо (Gradio) в HF Space
 ```
 
 Бюджет нулевой: модель открытая (Apache-2.0), хостинг — бесплатный CPU
@@ -49,38 +47,8 @@ python -m venv .venv
 pip install torch --index-url https://download.pytorch.org/whl/cpu
 pip install -r requirements.txt
 python app.py                   # веб-демо на http://127.0.0.1:7860
+python tools/smoke_test.py      # прогон образцов из samples/ (fake_* / real_*)
 ```
-
-## MCP-сервер
-
-Инструменты:
-
-| Инструмент | Что делает |
-| :--- | :--- |
-| `analyze_voice(file_path)` | Вердикт по одному файлу + оценки по сегментам |
-| `analyze_folder(folder_path)` | Пакетная проверка всех аудио в папке |
-| `model_info()` | Какая модель и пороги используются |
-
-**Claude Code** подхватывает сервер из [`.mcp.json`](.mcp.json) автоматически
-(путь к Python там для Windows; на Linux/macOS — `.venv/bin/python`).
-
-**Claude Desktop / Cursor** — добавить в конфиг:
-
-```json
-{
-  "mcpServers": {
-    "voiceguard": {
-      "command": "C:/путь/к/проекту/.venv/Scripts/python.exe",
-      "args": ["C:/путь/к/проекту/mcp_server.py"]
-    }
-  }
-}
-```
-
-Отладка в браузере: `mcp dev mcp_server.py`.
-
-После деплоя в Space тот же функционал доступен как удалённый MCP:
-`https://<user>-voiceguard.hf.space/gradio_api/mcp/sse`.
 
 ## Деплой на Hugging Face Spaces
 
@@ -92,7 +60,7 @@ python app.py                   # веб-демо на http://127.0.0.1:7860
 
 | Переменная | По умолчанию | Смысл |
 | :--- | :--- | :--- |
-| `VOICEGUARD_MODEL` | `MelodyMachine/Deepfake-audio-detection-V2` | Модель на HF |
+| `VOICEGUARD_MODEL` | `Gustking/wav2vec2-large-xlsr-deepfake-audio-classification` | Модель на HF |
 | `VOICEGUARD_THRESHOLD` | `0.5` | Порог вероятности для вердикта FAKE |
 | `VOICEGUARD_CHUNK_SECONDS` | `5` | Длина окна анализа |
 | `VOICEGUARD_MAX_SECONDS` | `60` | Сколько секунд записи анализировать |
