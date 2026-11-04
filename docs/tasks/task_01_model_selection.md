@@ -30,3 +30,16 @@
 
 ## 4. Потенциальная ценность для базы знаний
 - [x] 💡 Таблица сравнения моделей → `knowledge_base/model_selection.md` при закрытии этапа.
+
+## 5. Повторный прогон: + 4 нейросетевых голоса Edge TTS (RU/KZ), 2026-11-04
+
+`tools/make_fakes.py` → `samples/fake_edge_{ru,kk}_*.mp3`. Итого 6 fake + 1 real.
+
+| Модель | Поймано fake (из 6) | real верно (из 1) | Итог |
+| :--- | :---: | :---: | :---: |
+| garystafford/wav2vec2-deepfake-voice-detector | 6 | 0 | 6/7 |
+| Gustking/...-xlsr-... (текущая) | 3 (Edge пропускает, кроме Daulet) | 1 | 4/7 |
+| mo-thecreator/Deepfake-audio-detection | 4 | 0 | 4/7 |
+| MelodyMachine/Deepfake-audio-detection-V2 | 0 | 1 | 1/7 |
+
+Вывод: модели либо пропускают современный нейро-TTS, либо всё считают подделкой. Решение отложено до живых записей команды (RU/KZ, микрофон ноутбука/телефона).

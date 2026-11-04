@@ -3,3 +3,4 @@ transformers>=4.44
 librosa
 soundfile
 gradio>=5.30
+edge-tts  # только для tools/make_fakes.py
