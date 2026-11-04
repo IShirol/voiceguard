@@ -21,7 +21,6 @@ MODEL_ID = os.getenv("VOICEGUARD_MODEL", "Gustking/wav2vec2-large-xlsr-deepfake-
 SAMPLE_RATE = 16_000
 CHUNK_SECONDS = float(os.getenv("VOICEGUARD_CHUNK_SECONDS", "5"))
 MAX_SECONDS = float(os.getenv("VOICEGUARD_MAX_SECONDS", "60"))
-FAKE_THRESHOLD = float(os.getenv("VOICEGUARD_THRESHOLD", "0.5"))
 
 # Метки разных моделей приводим к двум: fake / real.
 _FAKE_LABELS = {"fake", "spoof", "deepfake", "synthetic", "ai"}
@@ -78,19 +77,15 @@ def analyze_array(audio: np.ndarray) -> dict:
         preds = clf({"raw": chunk, "sampling_rate": SAMPLE_RATE}, top_k=None)
         scores.append(_fake_score(preds))
 
-    fake_prob = float(np.mean(scores))
-    is_fake = fake_prob >= FAKE_THRESHOLD
-    confidence = fake_prob if is_fake else 1 - fake_prob
+    # Только оценка вероятности, без вердикта: система не даёт гарантий.
+    ai_prob = float(np.mean(scores))
     return {
-        "verdict": "FAKE" if is_fake else "REAL",
-        "verdict_ru": "Поддельный (синтезированный) голос" if is_fake else "Настоящий голос",
-        "fake_probability": round(fake_prob, 4),
-        "confidence": round(confidence, 4),
+        "ai_probability_pct": round(ai_prob * 100, 1),
         "duration_sec": round(len(audio) / SAMPLE_RATE, 2),
         "segments": [
             {
                 "start_sec": round(i * CHUNK_SECONDS, 1),
-                "fake_probability": round(s, 4),
+                "ai_probability_pct": round(s * 100, 1),
             }
             for i, s in enumerate(scores)
         ],
