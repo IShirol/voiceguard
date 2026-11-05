@@ -6,3 +6,6 @@ __pycache__/
 samples/private/
 *.pdf
 dist/
+models/
+runtime/
+test_runtime/

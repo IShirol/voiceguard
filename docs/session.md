@@ -25,6 +25,7 @@
 - [x] **06b:** Премиальный редизайн UI (Frosted Glassmorphism / Neumorphic), SVG-спарклайн, акустические метрики и 1-клик лаунчер ([лог](tasks/task_04_ui_frosted_glass_redesign.md))
 - [x] **07:** Короткая версия презентации с демо ([лог](tasks/task_08_presentation.md))
 - [x] **08:** Автономный нативный лаунчер `VoiceGuard.exe` для запуска в 1 клик без консоли, Edge App Mode и портативный скрипт сборки ([лог](tasks/task_09_standalone_launcher.md))
+- [x] **09:** Полный автономный офлайн-релиз: локальные веса модели, изолированный Python 3.13 рантайм, FFmpeg и ZIP-сборка для выступления ([лог](tasks/task_10_portable_offline_release.md))
 
 ---
 

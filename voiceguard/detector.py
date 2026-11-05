@@ -17,7 +17,15 @@ import librosa
 import numpy as np
 import soundfile as sf
 
-MODEL_ID = os.getenv("VOICEGUARD_MODEL", "Gustking/wav2vec2-large-xlsr-deepfake-audio-classification")
+_LOCAL_MODEL_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models", "wav2vec2-xlsr"
+)
+if os.path.isdir(_LOCAL_MODEL_DIR) and os.path.isfile(os.path.join(_LOCAL_MODEL_DIR, "model.safetensors")):
+    MODEL_ID = _LOCAL_MODEL_DIR
+    os.environ["HF_HUB_OFFLINE"] = "1"
+    os.environ["TRANSFORMERS_OFFLINE"] = "1"
+else:
+    MODEL_ID = os.getenv("VOICEGUARD_MODEL", "Gustking/wav2vec2-large-xlsr-deepfake-audio-classification")
 SAMPLE_RATE = 16_000
 CHUNK_SECONDS = float(os.getenv("VOICEGUARD_CHUNK_SECONDS", "5"))
 MAX_SECONDS = float(os.getenv("VOICEGUARD_MAX_SECONDS", "60"))
